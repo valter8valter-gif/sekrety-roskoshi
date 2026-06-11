@@ -16,29 +16,47 @@
            СВЕТЛАЯ ТЕМА (по умолчанию)
         ══════════════════════════════════════════ */
         :root {
-            --gold: #9a6f1a;
-            --gold-light: #c49020;
-            --gold-dim: rgba(154,111,26,0.2);
-            --gold-glow: rgba(154,111,26,0.08);
-            --gold-btn-text: #fff8ec;
-            --ice: #1c1e30;
-            --ice-dim: rgba(28,30,48,0.6);
-            --ice-faint: rgba(28,30,48,0.04);
-            --bg: #f5f2eb;
-            --bg2: #ede9de;
-            --surface: rgba(255,255,255,0.75);
-            --surface-hover: rgba(255,255,255,0.92);
-            --border: rgba(154,111,26,0.18);
-            --border-hover: rgba(154,111,26,0.38);
+            /* Медовый акцент (вместо золота) */
+            --gold: #D4A86F;
+            --gold-light: #E8C9A0;
+            --gold-dim: rgba(212,168,111,0.22);
+            --gold-glow: rgba(212,168,111,0.1);
+            --gold-btn-text: #fff;
+
+            /* Текст */
+            --ice: #2C3E50;
+            --ice-dim: rgba(44,62,80,0.6);
+            --ice-faint: rgba(200,217,232,0.12);
+
+            /* Фон */
+            --bg: #F5F3F0;
+            --bg2: #FEFAF5;
+
+            /* Поверхности — голубоватые карточки */
+            --surface: rgba(200,217,232,0.28);
+            --surface-hover: rgba(200,217,232,0.48);
+            --border: rgba(200,217,232,0.6);
+            --border-hover: rgba(212,168,111,0.5);
+
+            /* Тени */
             --shadow: 0 2px 16px rgba(0,0,0,0.08);
             --shadow-card: 0 1px 8px rgba(0,0,0,0.06);
-            --header-bg: linear-gradient(135deg, rgba(255,255,255,0.85) 0%, rgba(244,235,210,0.8) 100%);
-            --auth-bg: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(244,235,210,0.85) 100%);
-            --input-bg: rgba(28,30,48,0.04);
-            --input-focus-bg: rgba(154,111,26,0.06);
-            --progress-bar-bg: rgba(154,111,26,0.12);
-            --table-header-bg: rgba(154,111,26,0.06);
-            --error-color: #c0392b;
+
+            /* Блоки */
+            --header-bg: linear-gradient(135deg, rgba(200,217,232,0.25) 0%, rgba(212,168,111,0.15) 100%);
+            --auth-bg: linear-gradient(135deg, rgba(200,217,232,0.25) 0%, rgba(212,168,111,0.15) 100%);
+            --input-bg: rgba(200,217,232,0.18);
+            --input-focus-bg: rgba(212,168,111,0.1);
+            --progress-bar-bg: rgba(212,168,111,0.15);
+            --table-header-bg: rgba(200,217,232,0.25);
+
+            /* Семантические цвета */
+            --green: #5FA06A;
+            --green-lighter: #66B366;
+            --red: #8B3A3A;
+            --blue: #C8D9E8;
+            --error-color: #8B3A3A;
+
             --radius: 16px;
             --radius-sm: 10px;
         }
@@ -173,14 +191,18 @@
 
         /* ── ТРАНСФОРМАЦИЯ ── */
         .transformation {
-            background: var(--surface);
+            background: #C8D9E8;
             backdrop-filter: blur(10px);
-            border: 1px solid var(--gold-dim);
+            border: 1px solid rgba(200,217,232,0.7);
             border-radius: var(--radius);
             padding: clamp(16px, 5vw, 25px) clamp(14px, 4vw, 20px);
             margin-bottom: clamp(16px, 5vw, 25px);
             text-align: center;
             box-shadow: var(--shadow-card);
+        }
+        body.theme-dark .transformation {
+            background: var(--surface);
+            border: 1px solid var(--gold-dim);
         }
         .transformation-title {
             font-size: clamp(10px, 2.5vw, 12px);
@@ -394,12 +416,13 @@
             animation: toastIn 0.3s cubic-bezier(0.34,1.56,0.64,1);
         }
         .toast.removing { animation: toastOut 0.25s ease-in forwards; }
-        .toast.success { background: rgba(154,111,26,0.95); color: #fff8ec; }
-        .toast.error   { background: rgba(200,50,50,0.93);  color: #fff; }
-        .toast.warning { background: rgba(210,130,0,0.93);  color: #fff; }
+        .toast.success { background: #5FA06A; color: #fff; }
+        .toast.error   { background: #8B3A3A; color: #fff; }
+        .toast.warning { background: #D4A86F; color: #fff; }
         .toast.info    { background: rgba(50,100,200,0.88); color: #fff; }
         body.theme-dark .toast.success { background: rgba(212,175,55,0.95); color: #0f1729; }
         body.theme-dark .toast.warning { background: rgba(255,160,0,0.92);  color: #0f1729; }
+        body.theme-dark .toast.error   { background: rgba(220,60,60,0.92);  color: #fff; }
         .toast-icon { font-size: 14px; flex-shrink: 0; }
         @keyframes toastIn  { from { opacity:0; transform: translateX(40px) scale(0.9); } to { opacity:1; transform: translateX(0) scale(1); } }
         @keyframes toastOut { from { opacity:1; transform: translateX(0) scale(1); } to { opacity:0; transform: translateX(40px) scale(0.9); } }
@@ -430,9 +453,12 @@
             background: var(--gold);
             clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
         }
-        .material-checkbox:checked { border-color: var(--gold); background: var(--gold-glow); }
-        .material-checkbox:checked::before { transform: scale(1); }
-        .material-checkbox:hover { border-color: var(--gold); background: var(--gold-glow); }
+        .material-checkbox:checked { border-color: var(--green,#5FA06A); background: rgba(95,160,106,0.12); }
+        body.theme-dark .material-checkbox:checked { border-color: var(--gold); background: var(--gold-glow); }
+        .material-checkbox:checked::before { transform: scale(1); background: var(--green,#5FA06A); }
+        body.theme-dark .material-checkbox:checked::before { background: var(--gold); }
+        .material-checkbox:hover { border-color: var(--green,#5FA06A); background: rgba(95,160,106,0.08); }
+        body.theme-dark .material-checkbox:hover { border-color: var(--gold); background: var(--gold-glow); }
         .material-checkbox:disabled { opacity: 0.4; cursor: wait; }
 
         .material-content { flex: 1; min-width: 0; }
@@ -556,8 +582,10 @@
             background: var(--gold);
             clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
         }
-        .repeat-cb:checked { border-color: var(--gold); background: var(--gold-glow); }
-        .repeat-cb:checked::before { transform: scale(1); }
+        .repeat-cb:checked { border-color: var(--green,#5FA06A); background: rgba(95,160,106,0.12); }
+        body.theme-dark .repeat-cb:checked { border-color: var(--gold); background: var(--gold-glow); }
+        .repeat-cb:checked::before { transform: scale(1); background: var(--green,#5FA06A); }
+        body.theme-dark .repeat-cb:checked::before { background: var(--gold); }
 
         /* ── АВТОРИЗАЦИЯ ── */
         .auth-container { display: flex; justify-content: center; align-items: center; min-height: 100vh; min-height: 100dvh; padding: 20px; }
@@ -582,12 +610,14 @@
         }
         .input-field:focus { outline: none; border-color: var(--gold); background: var(--input-focus-bg); }
         .btn { padding: clamp(10px, 3vw, 12px) 24px; border-radius: var(--radius-sm); border: none; cursor: pointer; font-size: clamp(13px, 3.5vw, 14px); font-weight: 600; transition: all 0.3s; font-family: 'Lato', sans-serif; }
-        .btn-primary { background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%); color: var(--gold-btn-text); }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(154,111,26,0.3); }
+        .btn-primary { background: linear-gradient(135deg, var(--green) 0%, var(--green-lighter) 100%); color: #fff; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(95,160,106,0.35); }
+        body.theme-dark .btn-primary { background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%); color: var(--gold-btn-text); }
         body.theme-dark .btn-primary:hover { box-shadow: 0 8px 25px rgba(212,175,55,0.3); }
         .btn-primary:disabled { opacity: 0.5; cursor: default; transform: none; }
-        .btn-secondary { background: var(--gold-dim); color: var(--gold); border: 1px solid var(--border-hover); }
-        .btn-secondary:hover { background: var(--gold-dim); opacity: 0.8; }
+        .btn-secondary { background: var(--blue,#C8D9E8); color: var(--ice); border: 1px solid var(--border); }
+        body.theme-dark .btn-secondary { background: var(--gold-dim); color: var(--gold); border: 1px solid var(--border-hover); }
+        .btn-secondary:hover { opacity: 0.85; }
         .admin-link {
             margin-top: 20px; display: inline-block; color: var(--ice-dim);
             font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;
@@ -633,7 +663,7 @@
     // ================================================================
     // ⚙️  ВСТАВЬ СЮДА СВОЙ GAS URL ПОСЛЕ ДЕПЛОЯ v2
     // ================================================================
-    const GAS_URL = 'https://script.google.com/macros/s/AKfycbwhnySbxBPzocWb0bKtJ45whZU4QyJHg2MzNJgyRWSYmYYmyU5wKWXG2FJ5WNHM6yVtaw/exec';
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbxy3h5V6slni5gdygCxmLKF7qmMJid3VuytOX6HyAr1c6QCuFOEicyG1RQoUFx-uZOrjA/exec';
 
     // ================================================================
     // 11 СТАДИЙ ТРАНСФОРМАЦИИ
@@ -771,10 +801,33 @@
     // ================================================================
     // ПАНЕЛЬ АДМИНИСТРАТОРА
     // ================================================================
-    function AdminPanel({ analytics, analyticsLoading, onLogout, theme, onToggleTheme }) {
+    function AdminPanel({ analytics, analyticsLoading, adminPassword, onLogout, theme, onToggleTheme }) {
         const [expandedTable, setExpandedTable] = useState('overview');
+        const [toolsMsg, setToolsMsg] = useState(null);
+        const [toolsBusy, setToolsBusy] = useState(false);
+        const [syncInfo, setSyncInfo] = useState(null);
         const tEmoji = { эфир:'🎤', практика:'🧘', алгоритм:'📋', задания:'📝' };
         const tLabel  = { эфир:'ЭФИРЫ', практика:'ПРАКТИКИ', алгоритм:'АЛГОРИТМЫ', задания:'ЗАДАНИЯ' };
+
+        const toolCall = async (params, confirmMsg) => {
+            if (confirmMsg && !window.confirm(confirmMsg)) return;
+            setToolsBusy(true); setToolsMsg(null); setSyncInfo(null);
+            try {
+                const qs = Object.entries({ ...params, adminPassword }).map(([k,v])=>`${k}=${encodeURIComponent(v)}`).join('&');
+                const res = await fetch(`${GAS_URL}?${qs}`);
+                const d = await res.json();
+                if (d.success) {
+                    if (params.action === 'checkSync') setSyncInfo(d.sync);
+                    else setToolsMsg({ ok: true, text: d.cleared !== undefined ? `Готово. Затронуто строк: ${d.cleared}` : 'Готово!' });
+                } else {
+                    setToolsMsg({ ok: false, text: d.message || d.error || 'Ошибка' });
+                }
+            } catch (e) {
+                setToolsMsg({ ok: false, text: 'Ошибка сети: ' + e.message });
+            } finally {
+                setToolsBusy(false);
+            }
+        };
 
         const userList = analytics
             ? Object.entries(analytics.userProgress||{})
@@ -858,6 +911,53 @@
                         </div>);
                     })}
                 </>)}
+
+                {/* ── ИНСТРУМЕНТЫ АДМИНИСТРАТОРА ── */}
+                <div className="card">
+                    <h2 className="card-title">🛠 ИНСТРУМЕНТЫ</h2>
+                    <div style={{display:'flex',flexDirection:'column',gap:'10px'}}>
+                        <button
+                            disabled={toolsBusy}
+                            onClick={() => toolCall({action:'checkSync'}, null)}
+                            style={{padding:'10px 14px',borderRadius:'var(--radius-sm)',border:'1px solid var(--border)',background:'var(--surface)',color:'var(--ice)',cursor:'pointer',textAlign:'left',fontFamily:'inherit',fontSize:'14px'}}
+                        >🔍 Проверить синхронизацию</button>
+                        <button
+                            disabled={toolsBusy}
+                            onClick={() => toolCall({action:'resetProgressData'}, '⚠️ Сбросить ВСЕ результаты прогресса? Это действие нельзя отменить!')}
+                            style={{padding:'10px 14px',borderRadius:'var(--radius-sm)',border:'1px solid rgba(139,58,58,0.4)',background:'rgba(139,58,58,0.08)',color:'var(--error-color)',cursor:'pointer',textAlign:'left',fontFamily:'inherit',fontSize:'14px'}}
+                        >🗑 Сбросить прогресс участниц</button>
+                        <button
+                            disabled={toolsBusy}
+                            onClick={() => toolCall({action:'clearLogSheet',sheetName:'Действия'}, 'Очистить лист «Действия»?')}
+                            style={{padding:'10px 14px',borderRadius:'var(--radius-sm)',border:'1px solid var(--border)',background:'var(--surface)',color:'var(--ice)',cursor:'pointer',textAlign:'left',fontFamily:'inherit',fontSize:'14px'}}
+                        >🧹 Очистить лог «Действия»</button>
+                        <button
+                            disabled={toolsBusy}
+                            onClick={() => toolCall({action:'clearLogSheet',sheetName:'Ошибки'}, 'Очистить лист «Ошибки»?')}
+                            style={{padding:'10px 14px',borderRadius:'var(--radius-sm)',border:'1px solid var(--border)',background:'var(--surface)',color:'var(--ice)',cursor:'pointer',textAlign:'left',fontFamily:'inherit',fontSize:'14px'}}
+                        >🧹 Очистить лог «Ошибки»</button>
+                    </div>
+                    {toolsBusy && <p style={{marginTop:'12px',color:'var(--ice-dim)',fontSize:'13px',textAlign:'center'}}>⏳ Выполняется...</p>}
+                    {toolsMsg && (
+                        <p style={{marginTop:'12px',fontSize:'13px',color:toolsMsg.ok?'var(--green)':'var(--error-color)',textAlign:'center'}}>
+                            {toolsMsg.ok ? '✅ ' : '❌ '}{toolsMsg.text}
+                        </p>
+                    )}
+                    {syncInfo && (
+                        <div style={{marginTop:'12px',fontSize:'13px',color:'var(--ice)',lineHeight:'1.8'}}>
+                            <div>👥 Участниц в базе: <b>{syncInfo.totalUsers}</b></div>
+                            <div>📊 Из них с прогрессом: <b>{syncInfo.usersWithProgress}</b></div>
+                            <div>📚 Активных материалов: <b>{syncInfo.totalMaterials}</b></div>
+                            <div>📝 Строк в progress: <b>{syncInfo.totalProgressRows}</b></div>
+                            <div>✅ Выполнено (строк): <b>{syncInfo.completedRows}</b></div>
+                            {syncInfo.progressKeys?.length > 0 && (
+                                <div style={{marginTop:'8px',fontSize:'12px',color:'var(--ice-dim)',wordBreak:'break-all'}}>
+                                    Ключи прогресса: {syncInfo.progressKeys.join(', ')}
+                                </div>
+                            )}
+                        </div>
+                    )}
+                </div>
             </div>
         );
     }
@@ -1277,6 +1377,7 @@
         const [loginLoading, setLoginLoading] = useState(false);
         const [analytics, setAnalytics] = useState(null);
         const [analyticsLoading, setAnalyticsLoading] = useState(false);
+        const [adminPassword, setAdminPassword] = useState('');
         const [hasError, setHasError] = useState(false);
         const [lastError, setLastError] = useState(null);
 
@@ -1355,14 +1456,14 @@
             try {
                 const res = await fetch(`${GAS_URL}?action=getAnalytics&adminPassword=${encodeURIComponent(pwd)}`);
                 const d = await res.json();
-                if (d.success) { setAnalytics(d.analytics); setScreen('admin'); return true; }
+                if (d.success) { setAnalytics(d.analytics); setAdminPassword(pwd); setScreen('admin'); return true; }
                 return false;
             } catch (e) { return false; }
             finally { setLoginLoading(false); setAnalyticsLoading(false); }
         };
 
         const handleLogout = () => { setUser(null); setScreen('email-login'); };
-        const handleAdminLogout = () => { setAnalytics(null); setScreen('email-login'); };
+        const handleAdminLogout = () => { setAnalytics(null); setAdminPassword(''); setScreen('email-login'); };
 
         // Экран ошибки
         if (hasError) return <ErrorScreen error={lastError} onReload={() => window.location.reload()} />;
@@ -1371,7 +1472,7 @@
         if (screen==='access-denied') return <AccessDeniedScreen onBack={() => setScreen('email-login')} />;
         if (screen==='email-login')   return <EmailLoginScreen onSubmit={handleEmailLogin} isLoading={loginLoading} onAdminEntry={() => setScreen('admin-login')} />;
         if (screen==='admin-login')   return <AdminLoginScreen onLogin={handleAdminLogin} onBack={() => setScreen('email-login')} isLoading={loginLoading} />;
-        if (screen==='admin')         return <AdminPanel analytics={analytics} analyticsLoading={analyticsLoading} onLogout={handleAdminLogout} theme={theme} onToggleTheme={toggleTheme} />;
+        if (screen==='admin')         return <AdminPanel analytics={analytics} analyticsLoading={analyticsLoading} adminPassword={adminPassword} onLogout={handleAdminLogout} theme={theme} onToggleTheme={toggleTheme} />;
         return <App user={user} onLogout={handleLogout} theme={theme} onToggleTheme={toggleTheme} />;
     }
 
