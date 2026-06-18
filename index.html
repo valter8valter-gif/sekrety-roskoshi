@@ -9,9 +9,10 @@
     <script>
         // ── АВТООБНОВЛЕНИЕ ── менять APP_VERSION при каждом деплое
         (function() {
-            var APP_VERSION = '2026-06-18-001';
+            var APP_VERSION = '2026-06-18-002';
             var stored = localStorage.getItem('_srl_ver');
             if (stored && stored !== APP_VERSION) {
+                localStorage.removeItem('_srl_materials'); // сбрасываем кеш материалов при обновлении версии
                 localStorage.setItem('_srl_ver', APP_VERSION);
                 window.location.reload(true);
             } else {
@@ -769,7 +770,7 @@
     // ================================================================
     // ⚙️  ВСТАВЬ СЮДА СВОЙ GAS URL ПОСЛЕ ШАГА 2
     // ================================================================
-    const GAS_URL = 'https://script.google.com/macros/s/AKfycbzH_aUweqoHmsD3Vyk76vAcBDAu1FlZomuBdoYs2-TgOLlRw5Az5LWc-iFdfLbOIwoz/exec';
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbwVbPyPdEFbZCFUfSnXYmG80lgWRDgy-enJZE3C-5lMPltNOTkF6UCdBVR615IXUmmX/exec';
 
     // ================================================================
     // 6 СТАДИЙ ТРАНСФОРМАЦИИ — изображения body_0/20/40/60/80/100.png
@@ -1264,17 +1265,30 @@
                 setTimeout(() => setToasts(prev => prev.filter(t => t.id!==id)), 280);
             }, duration);
         };
+        // ── Кеш материалов (TTL 30 мин) ──────────────────────────────────
+        const MAT_CACHE_KEY = '_srl_materials';
+        const MAT_CACHE_TTL = 30 * 60 * 1000;
+        const getMaterialsCache = () => {
+            try {
+                const raw = localStorage.getItem(MAT_CACHE_KEY);
+                if (!raw) return null;
+                const { data, ts } = JSON.parse(raw);
+                return (Date.now() - ts < MAT_CACHE_TTL) ? data : null;
+            } catch(e) { return null; }
+        };
+        const saveMaterialsCache = (mats, ts) => {
+            try { localStorage.setItem(MAT_CACHE_KEY, JSON.stringify({ data: mats, ts: ts || Date.now() })); } catch(e) {}
+        };
+
         const reloadData = async () => {
+            // Ручное обновление — всегда загружаем свежее, кеш не используем
             setLoading(true);
             try {
-                const [matRes, progRes, schedRes] = await Promise.all([
-                    fetch(`${GAS_URL}?action=getMaterials`),
-                    fetch(`${GAS_URL}?action=getProgress&user_id=${encodeURIComponent(userId)}`),
-                    fetch(`${GAS_URL}?action=getSchedule`)
+                const [matData, progData, schedData] = await Promise.all([
+                    fetch(`${GAS_URL}?action=getMaterials`).then(r => r.json()),
+                    fetch(`${GAS_URL}?action=getProgress&user_id=${encodeURIComponent(userId)}`).then(r => r.json()),
+                    fetch(`${GAS_URL}?action=getSchedule`).then(r => r.json())
                 ]);
-                const matData = await matRes.json();
-                const progData = await progRes.json();
-                const schedData = await schedRes.json();
                 const mats = (matData.materials || []).map(m => ({...m, type: (m.type||'').trim().toLowerCase()}));
                 const prog = progData.progress || {};
                 setMaterials(mats);
@@ -1282,6 +1296,7 @@
                 mats.forEach(m => { c[m.id] = prog[m.id] || { done: false, feedback: '', want_repeat: false }; });
                 setCompletions(c);
                 if (schedData.success) setSchedule(schedData.schedule || []);
+                if (mats.length > 0) saveMaterialsCache(mats); // обновляем кеш после ручного обновления
             } catch(e) {} finally { setLoading(false); }
         };
 
@@ -1305,17 +1320,19 @@
 
         useEffect(() => {
             if (!user) return;
+            // getInitialData уже загрузил всё — пропускаем второй round-trip
+            if (materials.length > 0) return;
             setLoading(true);
             const load = async () => {
                 try {
-                    const [matRes, progRes, schedRes] = await Promise.all([
-                        fetch(`${GAS_URL}?action=getMaterials`),
-                        fetch(`${GAS_URL}?action=getProgress&user_id=${encodeURIComponent(userId)}`),
-                        fetch(`${GAS_URL}?action=getSchedule`)
+                    const cachedMats = getMaterialsCache();
+                    const [matData, progData, schedData] = await Promise.all([
+                        cachedMats
+                            ? Promise.resolve({ materials: cachedMats })
+                            : fetch(`${GAS_URL}?action=getMaterials`).then(r => r.json()),
+                        fetch(`${GAS_URL}?action=getProgress&user_id=${encodeURIComponent(userId)}`).then(r => r.json()),
+                        fetch(`${GAS_URL}?action=getSchedule`).then(r => r.json())
                     ]);
-                    const matData = await matRes.json();
-                    const progData = await progRes.json();
-                    const schedData = await schedRes.json();
                     const mats = (matData.materials || []).map(m => ({...m, type: (m.type||'').trim().toLowerCase()}));
                     const prog = progData.progress || {};
                     setMaterials(mats);
@@ -1325,6 +1342,7 @@
                     });
                     setCompletions(c);
                     if (schedData.success) setSchedule(schedData.schedule || []);
+                    if (!cachedMats && mats.length > 0) saveMaterialsCache(mats);
                 } catch (e) {
                     setLoadError('Не удалось загрузить данные. Проверьте подключение.');
                 } finally {
@@ -1782,15 +1800,26 @@
             init();
         }, []);
 
+        // ── Применяет ответ getInitialData — сразу ставит всё в state ──────
+        const applyInitialData = (d) => {
+            setUser(d.user);
+            const mats = (d.materials || []).map(m => ({...m, type: (m.type||'').trim().toLowerCase()}));
+            setMaterials(mats);
+            const prog = d.progress || {};
+            const c = {};
+            mats.forEach(m => { c[m.id] = prog[m.id] || { done: false, feedback: '', want_repeat: false }; });
+            setCompletions(c);
+            if (d.schedule) setSchedule(d.schedule);
+            if (mats.length > 0) saveMaterialsCache(mats, d.materialsTs);
+        };
+
         const checkTelegram = async (tg) => {
             try {
-                const res = await fetch(`${GAS_URL}?action=getUser&telegram_id=${encodeURIComponent(tg.id)}&username=${encodeURIComponent(tg.username||'')}&email=`);
+                const res = await fetch(`${GAS_URL}?action=getInitialData&telegram_id=${encodeURIComponent(tg.id)}&username=${encodeURIComponent(tg.username||'')}&email=`);
                 const d = await res.json();
                 if (d.success && d.user?.access==='yes') {
-                    setUser(d.user);
+                    applyInitialData(d);
                     setScreen('app');
-                    // Фиксируем last_seen в фоне, не блокируем загрузку
-                    fetch(`${GAS_URL}?action=updateLastSeen&user_id=${encodeURIComponent(d.user.id)}`).catch(()=>{});
                 } else setScreen('access-denied');
             } catch (e) { setScreen('email-login'); }
         };
@@ -1798,13 +1827,11 @@
         const handleEmailLogin = async (email, firstName) => {
             setLoginLoading(true);
             try {
-                const res = await fetch(`${GAS_URL}?action=getUser&telegram_id=&username=&email=${encodeURIComponent(email)}`);
+                const res = await fetch(`${GAS_URL}?action=getInitialData&telegram_id=&username=&email=${encodeURIComponent(email)}`);
                 const d = await res.json();
                 if (d.success && d.user?.access==='yes') {
-                    setUser(d.user);
+                    applyInitialData(d);
                     setScreen('app');
-                    // Фиксируем last_seen в фоне
-                    fetch(`${GAS_URL}?action=updateLastSeen&user_id=${encodeURIComponent(d.user.id)}`).catch(()=>{});
                 } else setScreen('access-denied');
             } catch (e) { alert('Ошибка подключения. Попробуйте снова.'); }
             finally { setLoginLoading(false); }
