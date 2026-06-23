@@ -1,0 +1,65 @@
+Дата/время,Пользователь,Действие,ID материала,Название материала,Детали,Ник в TG (lookup),
+19.06.2026 7:40:12,valter_valter,bot_start,,,Участница подключила бота,valter_valter,
+,,,,,,valter_valter,
+,,,,,,valter_valter,
+,,,,,,valter_valter,
+,,,,,,valter_valter,
+,,,,,,valter_valter,
+,,,,,,valter_valter,
+,,,,,,valter_valter,
+,,,,,,valter_valter,
+,,,,,,valter_valter,
+,,,,,,valter_valter,
+,,,,,,valter_valter,
+,,,,,,valter_valter,
+,,,,,,valter_valter,
+,,,,,,valter_valter,
+,,,,,,valter_valter,
+,,,,,,valter_valter,
+,,,,,,valter_valter,
+,,,,,,valter_valter,
+,,,,,,valter_valter,
+,,,,,,valter_valter,
+,,,,,,valter_valter,
+,,,,,,valter_valter,
+,,,,,,valter_valter,
+,,,,,,valter_valter,
+,,,,,,valter_valter,
+,,,,,,valter_valter,
+,,,,,,valter_valter,
+,,,,,,valter_valter,
+,,,,,,valter_valter,
+,,,,,,valter_valter,
+,,,,,,valter_valter,
+,,,,,,valter_valter,
+,,,,,,valter_valter,
+,,,,,,valter_valter,
+19.06.2026 7:43:28,89126581972@ya.ru,toggle_complete,13,Эфир Сенситивность и нейрорегуляция,"{""done"":true}",,
+19.06.2026 7:43:29,89126581972@ya.ru,toggle_complete,5,Практика УТРЕННЯЯ СОНАСТРОЙКА,"{""done"":true}",,
+19.06.2026 7:43:31,89126581972@ya.ru,toggle_complete,6,Практика ВИШЛИСТ,"{""done"":true}",,
+19.06.2026 7:43:34,89126581972@ya.ru,toggle_complete,8,Задание 1,"{""done"":true}",,
+19.06.2026 7:43:35,89126581972@ya.ru,toggle_complete,9,Задание 2,"{""done"":true}",,
+19.06.2026 7:43:41,89126581972@ya.ru,toggle_complete,10,Задание 3,"{""done"":true}",,
+19.06.2026 7:43:45,89126581972@ya.ru,toggle_complete,12,Задание 5,"{""done"":true}",,
+19.06.2026 7:43:46,89126581972@ya.ru,toggle_complete,11,Задание 4,"{""done"":true}",,
+19.06.2026 8:15:32,89126581972@ya.ru,toggle_complete,14,Эфир 2: Финансовое программирование,"{""done"":true}",,
+19.06.2026 8:15:34,89126581972@ya.ru,toggle_complete,15,Практика ЖЕЛАНИЕ,"{""done"":true}",,
+19.06.2026 8:15:36,89126581972@ya.ru,toggle_complete,4,Алгоритм УТРЕННЯЯ СОНАСТРОЙКА,"{""done"":true}",,
+19.06.2026 8:15:37,89126581972@ya.ru,toggle_complete,11,Задание 4,"{""done"":true}",,
+19.06.2026 8:22:26,89126581972@ya.ru,toggle_repeat,6,Практика ВИШЛИСТ,"{""want_repeat"":true}",,
+19.06.2026 8:22:28,89126581972@ya.ru,toggle_repeat,15,Практика ЖЕЛАНИЕ,"{""want_repeat"":true}",,
+19.06.2026 8:22:30,89126581972@ya.ru,toggle_repeat,14,Эфир 2: Финансовое программирование,"{""want_repeat"":true}",,
+Дата/время (екб 12ч),Почта,Пользователь,Действие,Действие,ID материала,Название материала,
+22.06.2026 1:11:23,89126581972@ya.ru,valter_valter,toggle_complete,Отметила выполнение,16,Эфир 2: телесное нейропрограммирование программирование нового образа я,"{""done"":true}"
+22.06.2026 1:22:03,89126581972@ya.ru,valter_valter,toggle_repeat,Изменила «хочу повторить»,11,Задание 4,"{""want_repeat"":true}"
+22.06.2026 1:22:06,89126581972@ya.ru,valter_valter,toggle_incomplete,Сняла отметку,12,Задание 5,"{""done"":false}"
+22.06.2026 1:24:05,89126581972@ya.ru,valter_valter,save_feedback,Оставила инсайт/фидбэк,10,Задание 3,"{""feedback"":""Практика""}"
+22.06.2026 1:24:05,89126581972@ya.ru,valter_valter,toggle_repeat,Изменила «хочу повторить»,10,Задание 3,"{""want_repeat"":false}"
+22.06.2026 1:24:19,89126581972@ya.ru,valter_valter,toggle_repeat,Изменила «хочу повторить»,10,Задание 3,"{""want_repeat"":true}"
+22.06.2026 1:24:30,89126581972@ya.ru,valter_valter,toggle_repeat,Изменила «хочу повторить»,10,Задание 3,"{""want_repeat"":false}"
+22.06.2026 2:25:48,89126581972@ya.ru,valter_valter,toggle_incomplete,Сняла отметку ○,13,Эфир 1: Сенситивность и нейрорегуляция,"{""done"":false}"
+22.06.2026 2:25:55,89126581972@ya.ru,valter_valter,toggle_complete,Отметила выполнение ✅,13,Эфир 1: Сенситивность и нейрорегуляция,"{""done"":true}"
+22.06.2026 2:25:56,89126581972@ya.ru,valter_valter,toggle_repeat,Поставила «хочу повторить» 🔁,13,Эфир 1: Сенситивность и нейрорегуляция,"{""want_repeat"":true}"
+22.06.2026 2:26:00,89126581972@ya.ru,valter_valter,save_feedback,Самое ценное: «Практика»,13,Эфир 1: Сенситивность и нейрорегуляция,"{""feedback"":""Практика""}"
+22.06.2026 2:26:01,89126581972@ya.ru,valter_valter,toggle_repeat,Сняла «хочу повторить»,13,Эфир 1: Сенситивность и нейрорегуляция,"{""want_repeat"":false}"
+22.06.2026 2:27:43,89126581972@ya.ru,valter_valter,toggle_complete,Отметила выполнение ✅,12,Задание 5,"{""done"":true}"
